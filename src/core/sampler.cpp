@@ -10,7 +10,7 @@ namespace {
 }
 
 D3D12_CPU_DESCRIPTOR_HANDLE SamplerDesc::CreateSampler() {
-  size_t hash = Utils::getHash(this);
+  size_t hash = Utils::GetHash(this);
   auto iter = sSamplerCache.find(hash);
   if (iter != sSamplerCache.end()) {
     return iter->second;

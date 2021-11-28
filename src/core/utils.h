@@ -76,7 +76,7 @@ namespace Utils
   std::string RemoveExtension(const std::string& str);
   std::wstring RemoveExtension(const std::wstring& str);
 
-  template <typename T> __forceinline T alignDownWithMask(T value, size_t mask) {
+  template <typename T> __forceinline T AlignDownWithMask(T value, size_t mask) {
     // Let alignment = 8 = 1000b. Then mask = alignment-1 = 7 = 0111b. Then ~mask = [...1]1000b.
     // Now let value = 13 = 01101b, for example. Then value & ~mask = 8 = 01000b.
     // Therefore, value & ~mask clears the 3 least-significant bits of value and rounds
@@ -84,7 +84,7 @@ namespace Utils
     return (T)((size_t)value & ~mask);
   }
 
-  template <typename T> __forceinline T alignUpWithMask(T value, size_t mask) {
+  template <typename T> __forceinline T AlignUpWithMask(T value, size_t mask) {
     // Let alignment = 8 = 1000b. Then mask = alignment-1 = 7 = 0111b. Then ~mask = [...1]1000b.
     // Now let value = 13 = 01101b, for example. Then value + mask = 20 = 10100b.
     // Therefore, (value + mask) & ~mask = 10000 rounds 13 up to 16.
@@ -93,31 +93,31 @@ namespace Utils
 
   // Aligns value on a given alignment boundary by rounding value down to the previous
   // multiple of alignment.
-  template <typename T> __forceinline T alignDown(T value, size_t alignment) {
-    return alignDownWithMask(value, alignment-1);
+  template <typename T> __forceinline T AlignDown(T value, size_t alignment) {
+    return AlignDownWithMask(value, alignment-1);
   }
 
   // Aligns value on a given alignment boundary by rounding value up to the next
   // multiple of alignment.
-  template <typename T> __forceinline T alignUp(T value, size_t alignment) {
+  template <typename T> __forceinline T AlignUp(T value, size_t alignment) {
     return alignUpWithMask(value, alignment - 1);
   }
 
-  template <typename T> inline size_t getHash(
+  template <typename T> inline size_t GetHash(
     const T* stateDesc, 
     size_t count = 1,
     size_t hash = 2166136261U
   ) {
     static_assert((sizeof(T) & 3) == 0 && alignof(T) >= 4, "State object is not word-aligned");
-    return hashRange((uint32_t*)stateDesc, (uint32_t*)(stateDesc + count), hash);
+    return HashRange((uint32_t*)stateDesc, (uint32_t*)(stateDesc + count), hash);
   }
 
   // Populates the buffer delimited by begin and end with accumulated 64-bit CRC32 hashes.
   // The 1st and/or last hash may be 32-bit CRC32 hashes if begin and/or end are not 
   // aligned on a 64-bit boundary.
-  inline size_t hashRange(const uint32_t* const begin, const uint32_t* const end, size_t hash) {
-    const uint64_t* u64Iter = (const uint64_t*)alignUp(begin, 8);
-    const uint64_t* u64End = (const uint64_t*)alignDown(end, 8);
+  inline size_t HashRange(const uint32_t* const begin, const uint32_t* const end, size_t hash) {
+    const uint64_t* u64Iter = (const uint64_t*)AlignUp(begin, 8);
+    const uint64_t* u64End = (const uint64_t*)AlignDown(end, 8);
     
     if ((uint32_t*)u64Iter > begin) {
       // begin wasn't originally aligned on a 64-bit boundary, so it was
