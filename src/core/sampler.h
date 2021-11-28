@@ -3,6 +3,7 @@
 #include "cdx.h"
 #include "color.h"
 
+// TODO: rename to Sampler.
 class SamplerDesc : public D3D12_SAMPLER_DESC {
 public:
   // Set sampler descriptor default values.
@@ -40,4 +41,7 @@ public:
     BorderColor[2] = color.B();
     BorderColor[3] = color.A();
   }
+
+  // Creates a sampler using this sampler descriptor and returns a CPU handle to it.
+  D3D12_CPU_DESCRIPTOR_HANDLE CreateSampler();
 };
