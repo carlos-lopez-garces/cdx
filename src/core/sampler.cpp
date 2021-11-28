@@ -17,7 +17,7 @@ D3D12_CPU_DESCRIPTOR_HANDLE SamplerDesc::CreateSampler() {
   }
 
   D3D12_CPU_DESCRIPTOR_HANDLE handle = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER);
-  Graphics::g_Device->CreateSampler(this, handle);
+  Graphics::gDevice->CreateSampler(this, handle);
   sSamplerCache.insert(hash, handle);
   return handle;
 }

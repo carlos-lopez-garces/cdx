@@ -15,14 +15,14 @@ namespace Graphics {
   bool g_bTypedUAVLoadSupport_R11G11B10_FLOAT = false;
   bool g_bTypedUAVLoadSupport_R16G16B16A16_FLOAT = false;
 
-  ID3D12Device* g_Device = nullptr;
+  ID3D12Device* gDevice = nullptr;
   CommandListManager g_CommandManager;
   ContextManager g_ContextManager;
   
   // Target features supported by Direct3D 11.0, including shader model 5.
   D3D_FEATURE_LEVEL g_D3DFeatureLevel = D3D_FEATURE_LEVEL_11_0;
 
-  DescriptorAllocator g_DescriptorAllocator[D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES] = {
+  DescriptorAllocator gDescriptorAllocator[D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES] = {
     // Constant buffer views, shader resource views, and unordered access views.
     D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
     D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER,
@@ -190,11 +190,11 @@ namespace Graphics {
 
       if (videoMemorySize > 0) {
         // Move the raw pointer to the device to the other ComPtr.
-        g_Device = pDevice.Detach();
+        gDevice = pDevice.Detach();
       }
     }
 
-    if (g_Device == nullptr) {
+    if (gDevice == nullptr) {
       // A GPU wasn't found.
       
       // Try with a software display adapter (graphics emulator) or use one if requested.
@@ -209,7 +209,7 @@ namespace Graphics {
       ASSERT_SUCCEEDED(D3D12CreateDevice(pAdapter.Get(), g_D3DFeatureLevel, MY_IID_PPV_ARGS(&pDevice)));
 
       // Move the raw pointer to the device to the other ComPtr.
-      g_Device = pDevice.Detach();
+      gDevice = pDevice.Detach();
     }
 #ifndef RELEASE
     else {
@@ -229,7 +229,7 @@ namespace Graphics {
 
       // Prevent the GPU from overclocking or underclocking to get consistent timings.
       if (developerModeEnabled) {
-        g_Device->SetStablePowerState(TRUE);
+        gDevice->SetStablePowerState(TRUE);
       }
     }
 #endif
@@ -238,7 +238,7 @@ namespace Graphics {
     ID3D12InfoQueue* pInfoQueue = nullptr;
     // QueryInterface is a method of IUnknown: does the ID3D12Device support 
     // the ID3D12InfoQueue interface?
-    if (SUCCEEDED(g_Device->QueryInterface(MY_IID_PPV_ARGS(&pInfoQueue)))) {
+    if (SUCCEEDED(gDevice->QueryInterface(MY_IID_PPV_ARGS(&pInfoQueue)))) {
       // Suppress messages with severity "info".
       D3D12_MESSAGE_SEVERITY severitiesToDeny[] = {
         D3D12_MESSAGE_SEVERITY_INFO
@@ -279,14 +279,14 @@ namespace Graphics {
     // which is required for doing read-modify-write operations on UAVs during post processing.
     // Otherwise, we are forced to manually decode an R32_UINT representation of the same buffer.
     D3D12_FEATURE_DATA_D3D12_OPTIONS featureData = {};
-    if (SUCCEEDED(g_Device->CheckFeatureSupport(D3D12_FEATURE_D3D12_OPTIONS, &featureData, sizeof(featureData)))) {
+    if (SUCCEEDED(gDevice->CheckFeatureSupport(D3D12_FEATURE_D3D12_OPTIONS, &featureData, sizeof(featureData)))) {
       if (featureData.TypedUAVLoadAdditionalFormats) {
         D3D12_FEATURE_DATA_FORMAT_SUPPORT desiredFormats = {
           DXGI_FORMAT_R11G11B10_FLOAT, D3D12_FORMAT_SUPPORT1_NONE, D3D12_FORMAT_SUPPORT2_NONE
         };
 
         if (
-          SUCCEEDED(g_Device->CheckFeatureSupport(D3D12_FEATURE_FORMAT_SUPPORT, &desiredFormats, sizeof(desiredFormats)))
+          SUCCEEDED(gDevice->CheckFeatureSupport(D3D12_FEATURE_FORMAT_SUPPORT, &desiredFormats, sizeof(desiredFormats)))
           && (desiredFormats.Support2 & D3D12_FORMAT_SUPPORT2_UAV_TYPED_LOAD) != 0
         ) {
           g_bTypedUAVLoadSupport_R11G11B10_FLOAT = true;
@@ -295,7 +295,7 @@ namespace Graphics {
         desiredFormats.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
 
         if (
-          SUCCEEDED(g_Device->CheckFeatureSupport(D3D12_FEATURE_FORMAT_SUPPORT, &desiredFormats, sizeof(desiredFormats))) 
+          SUCCEEDED(gDevice->CheckFeatureSupport(D3D12_FEATURE_FORMAT_SUPPORT, &desiredFormats, sizeof(desiredFormats))) 
           && (desiredFormats.Support2 & D3D12_FORMAT_SUPPORT2_UAV_TYPED_LOAD) != 0
         ) {
           g_bTypedUAVLoadSupport_R16G16B16A16_FLOAT = true;
@@ -303,7 +303,7 @@ namespace Graphics {
       }
     }
 
-    g_CommandManager.Create(g_Device);
+    g_CommandManager.Create(gDevice);
 
     InitializeCommonState();
     Display::Initialize();
