@@ -8,6 +8,8 @@ class Color {
 public:
   Color() : mValue(g_XMOne) {}
 
+  Color(float r, float g, float b, float a = 1.0f);
+
   float R() const {
     return XMVectorGetX(mValue);
   }

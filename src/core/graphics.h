@@ -1,4 +1,6 @@
-#include pragma
+#pragma once
+
+#include "sampler.h"
 
 class CommandListManager;
 class ContextManager;
@@ -18,6 +20,25 @@ namespace Graphics {
   extern bool g_bTypedUAVLoadSupport_R11G11B10_FLOAT;
   extern bool g_bTypedUAVLoadSupport_R16G16B16A16_FLOAT;
   extern DescriptorAllocator g_DescriptorAllocator[];
+
+  // Static samplers don't need to be allocated from a sampler heap. Instead, you may
+  // define an array of static samplers once, when initializing the root signature.
+  extern SamplerDesc SamplerLinearWrapDesc;
+  extern D3D12_CPU_DESCRIPTOR_HANDLE SamplerLinearWrap;
+  extern SamplerDesc SamplerAnisoWrapDesc;
+  extern D3D12_CPU_DESCRIPTOR_HANDLE SamplerAnisoWrap;
+  extern SamplerDesc SamplerShadowDesc;
+  extern D3D12_CPU_DESCRIPTOR_HANDLE SamplerShadow;
+  extern SamplerDesc SamplerLinearClampDesc;
+  extern D3D12_CPU_DESCRIPTOR_HANDLE SamplerLinearClamp;
+  extern SamplerDesc SamplerVolumeWrapDesc;
+  extern D3D12_CPU_DESCRIPTOR_HANDLE SamplerVolumeWrap;
+  extern SamplerDesc SamplerPointClampDesc;
+  extern D3D12_CPU_DESCRIPTOR_HANDLE SamplerPointClamp;
+  extern SamplerDesc SamplerPointBorderDesc;
+  extern D3D12_CPU_DESCRIPTOR_HANDLE SamplerPointBorder;
+  extern SamplerDesc SamplerLinearBorderDesc;
+  extern D3D12_CPU_DESCRIPTOR_HANDLE SamplerLinearBorder;
 
   void Initialize();
 

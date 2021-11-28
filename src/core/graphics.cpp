@@ -32,6 +32,59 @@ namespace Graphics {
     D3D12_DESCRIPTOR_HEAP_TYPE_DSV
   };
 
+  // Static samplers.
+  SamplerDesc SamplerLinearWrapDesc;
+  D3D12_CPU_DESCRIPTOR_HANDLE SamplerLinearWrap;
+  SamplerDesc SamplerAnisoWrapDesc;
+  D3D12_CPU_DESCRIPTOR_HANDLE SamplerAnisoWrap;
+  SamplerDesc SamplerShadowDesc;
+  D3D12_CPU_DESCRIPTOR_HANDLE SamplerShadow;
+  SamplerDesc SamplerLinearClampDesc;
+  D3D12_CPU_DESCRIPTOR_HANDLE SamplerLinearClamp;
+  SamplerDesc SamplerVolumeWrapDesc;
+  D3D12_CPU_DESCRIPTOR_HANDLE SamplerVolumeWrap;
+  SamplerDesc SamplerPointClampDesc;
+  D3D12_CPU_DESCRIPTOR_HANDLE SamplerPointClamp;
+  SamplerDesc SamplerPointBorderDesc;
+  D3D12_CPU_DESCRIPTOR_HANDLE SamplerPointBorder;
+  SamplerDesc SamplerLinearBorderDesc;
+  D3D12_CPU_DESCRIPTOR_HANDLE SamplerLinearBorder;
+
+  void InitializeCommonState() {
+    // Static samplers.
+    SamplerLinearWrapDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+    SamplerLinearWrap = SamplerLinearWrapDesc.CreateSampler();
+
+    SamplerAnisoWrapDesc.MaxAnisotropy = 4;
+    SamplerAnisoWrap = SamplerAnisoWrapDesc.CreateSampler();
+
+    SamplerShadowDesc.Filter = D3D12_FILTER_COMPARISON_MIN_MAG_LINEAR_MIP_POINT;
+    SamplerShadowDesc.ComparisonFunc = D3D12_COMPARISON_FUNC_GREATER_EQUAL;
+    SamplerShadowDesc.SetTextureAddressMode(D3D12_TEXTURE_ADDRESS_MODE_CLAMP);
+    SamplerShadow = SamplerShadowDesc.CreateSampler();
+
+    SamplerLinearClampDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+    SamplerLinearClampDesc.SetTextureAddressMode(D3D12_TEXTURE_ADDRESS_MODE_CLAMP);
+    SamplerLinearClamp = SamplerLinearClampDesc.CreateSampler();
+
+    SamplerVolumeWrapDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;
+    SamplerVolumeWrap = SamplerVolumeWrapDesc.CreateSampler();
+
+    SamplerPointClampDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;
+    SamplerPointClampDesc.SetTextureAddressMode(D3D12_TEXTURE_ADDRESS_MODE_CLAMP);
+    SamplerPointClamp = SamplerPointClampDesc.CreateSampler();
+
+    SamplerLinearBorderDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+    SamplerLinearBorderDesc.SetTextureAddressMode(D3D12_TEXTURE_ADDRESS_MODE_BORDER);
+    SamplerLinearBorderDesc.SetBorderColor(Color(0.0f, 0.0f, 0.0f, 0.0f));
+    SamplerLinearBorder = SamplerLinearBorderDesc.CreateSampler();
+
+    SamplerPointBorderDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;
+    SamplerPointBorderDesc.SetTextureAddressMode(D3D12_TEXTURE_ADDRESS_MODE_BORDER);
+    SamplerPointBorderDesc.SetBorderColor(Color(0.0f, 0.0f, 0.0f, 0.0f));
+    SamplerPointBorder = SamplerPointBorderDesc.CreateSampler();
+  }
+
   void Initialize() {
     Microsoft::WRL::ComPtr<ID3D12Device> pDevice;
     DWORD dxgiFactoryFlags = 0;
