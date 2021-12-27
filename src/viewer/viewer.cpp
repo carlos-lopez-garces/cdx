@@ -1,11 +1,11 @@
-class Viewer {
+#include "viewer.h"
+#include "core/game.h"
+
+using namespace Core;
+
+class Viewer : public Core::Game {
 public:
   Viewer() {}
-
-  virtual void Startup() override;
-  virtual void Update(float deltaT) override;
-  virtual void RenderScene() override;
-  virtual void Cleanup() override;
 
 private:
 };
