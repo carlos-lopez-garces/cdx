@@ -41,6 +41,17 @@ namespace Graphics {
   extern SamplerDesc SamplerLinearBorderDesc;
   extern D3D12_CPU_DESCRIPTOR_HANDLE SamplerLinearBorder;
 
+  enum DefaultTextureId {
+    kMagenta2D,
+    kBlackOpaque2D,
+    kBlackTransparent2D,
+    kWhiteOpaque2D,
+    kWhiteTransparent2D,
+    kDefaultNormalMap,
+    kBlackCubeMap,
+    kNumDefaultTextures
+  };
+
   void Initialize();
 
   // Allocates a number of descriptors from the specified type of descriptor heap.
@@ -49,4 +60,6 @@ namespace Graphics {
   ) {
     return gDescriptorAllocator[type].Allocate(count);
   }
+
+  D3D12_CPU_DESCRIPTOR_HANDLE GetDefaultTexture(DefaultTextureId texId);
 }

@@ -13,7 +13,7 @@ public:
     mCurrentHandle.ptr = D3D12_GPU_VIRTUAL_ADDRESS_UNKNOWN;
   }
 
-  // Allocates the requested number of descriptors and returns a handle to
+  // Allocates the requested number of descriptors and returns a handle to the
   // start of the allocated space in the descriptor heap.
   D3D12_CPU_DESCRIPTOR_HANDLE Allocate(uint32_t count);
 

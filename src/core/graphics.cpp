@@ -4,6 +4,7 @@
 #include "cdx.h"
 #include "graphics.h"
 #include "game.h"
+#include "texture.h"
 #include "utils.h"
 
 #pragma comment(lib, "d3d12.lib") 
@@ -49,6 +50,8 @@ namespace Graphics {
   D3D12_CPU_DESCRIPTOR_HANDLE SamplerPointBorder;
   SamplerDesc SamplerLinearBorderDesc;
   D3D12_CPU_DESCRIPTOR_HANDLE SamplerLinearBorder;
+
+  Texture DefaultTextures[kNumDefaultTextures];
 
   void InitializeCommonState() {
     // Static samplers.
