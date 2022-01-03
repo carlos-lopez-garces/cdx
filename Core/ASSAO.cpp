@@ -59,28 +59,28 @@ void ASSAO::Initialize(void)
     s_DownsamplePSO.SetRootSignature(s_RootSignature);
     s_DownsamplePSO.SetVertexShader(g_pASSAOVS, sizeof(g_pASSAOVS));
     s_DownsamplePSO.SetPixelShader(g_pASSAODownsamplePS, sizeof(g_pASSAODownsamplePS));
-    s_DownsamplePSO.SetRasterizerState(Graphics::RasterizerDefault);
+    s_DownsamplePSO.SetRasterizerState(Graphics::RasterizerASSAO);
     s_DownsamplePSO.SetPrimitiveTopologyType(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
     s_DownsamplePSO.Finalize();
 
     s_ComputePSO.SetRootSignature(s_RootSignature);
     s_ComputePSO.SetVertexShader(g_pASSAOVS, sizeof(g_pASSAOVS));
     s_ComputePSO.SetPixelShader(g_pASSAOComputePS, sizeof(g_pASSAOComputePS));
-    s_ComputePSO.SetRasterizerState(Graphics::RasterizerDefault);
+    s_ComputePSO.SetRasterizerState(Graphics::RasterizerASSAO);
     s_ComputePSO.SetPrimitiveTopologyType(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
     s_ComputePSO.Finalize();
 
     s_BlurPSO.SetRootSignature(s_RootSignature);
     s_BlurPSO.SetVertexShader(g_pASSAOVS, sizeof(g_pASSAOVS));
     s_BlurPSO.SetPixelShader(g_pASSAOBlurPS, sizeof(g_pASSAOBlurPS));
-    s_BlurPSO.SetRasterizerState(Graphics::RasterizerDefault);
+    s_BlurPSO.SetRasterizerState(Graphics::RasterizerASSAO);
     s_BlurPSO.SetPrimitiveTopologyType(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
     s_BlurPSO.Finalize();
 
     s_UpsamplePSO.SetRootSignature(s_RootSignature);
     s_UpsamplePSO.SetVertexShader(g_pASSAOVS, sizeof(g_pASSAOVS));
     s_UpsamplePSO.SetPixelShader(g_pASSAOUpsamplePS, sizeof(g_pASSAOUpsamplePS));
-    s_UpsamplePSO.SetRasterizerState(Graphics::RasterizerDefault);
+    s_UpsamplePSO.SetRasterizerState(Graphics::RasterizerASSAO);
     s_UpsamplePSO.SetPrimitiveTopologyType(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
     s_UpsamplePSO.Finalize();
 }

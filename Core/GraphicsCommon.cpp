@@ -69,6 +69,7 @@ namespace Graphics
     D3D12_RASTERIZER_DESC RasterizerShadow;
     D3D12_RASTERIZER_DESC RasterizerShadowCW;
     D3D12_RASTERIZER_DESC RasterizerShadowTwoSided;
+    D3D12_RASTERIZER_DESC RasterizerASSAO;
 
     D3D12_BLEND_DESC BlendNoColorWrite;
     D3D12_BLEND_DESC BlendDisable;
@@ -200,6 +201,18 @@ void Graphics::InitializeCommonState(void)
 
     RasterizerShadowCW = RasterizerShadow;
     RasterizerShadowCW.FrontCounterClockwise = FALSE;
+
+    RasterizerASSAO = RasterizerDefault;
+    RasterizerASSAO.FillMode = D3D12_FILL_MODE_SOLID;
+    RasterizerASSAO.CullMode = D3D12_CULL_MODE_BACK;
+    RasterizerASSAO.FrontCounterClockwise = true;
+    RasterizerASSAO.DepthBias = 0;
+    RasterizerASSAO.DepthBiasClamp = 0.0f;
+    RasterizerASSAO.SlopeScaledDepthBias = 0.0f;
+    RasterizerASSAO.DepthClipEnable = true;
+    // TODO: no ScissorEnable?
+    RasterizerASSAO.MultisampleEnable = false;
+    RasterizerASSAO.AntialiasedLineEnable = false;
 
     DepthStateDisabled.DepthEnable = FALSE;
     DepthStateDisabled.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
