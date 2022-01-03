@@ -18,6 +18,7 @@
 #include "GpuTimeManager.h"
 #include "PostEffects.h"
 #include "SSAO.h"
+#include "ASSAO.h"
 #include "TextRenderer.h"
 #include "ColorBuffer.h"
 #include "SystemTime.h"
@@ -380,6 +381,7 @@ void Graphics::Initialize(void)
     TemporalEffects::Initialize();
     PostEffects::Initialize();
     SSAO::Initialize();
+    ASSAO::Initialize();
     TextRenderer::Initialize();
     GraphRenderer::Initialize();
     ParticleEffectManager::Initialize(3840, 2160);

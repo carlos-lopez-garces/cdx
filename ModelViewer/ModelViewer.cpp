@@ -21,6 +21,7 @@
 #include "DepthOfField.h"
 #include "PostEffects.h"
 #include "SSAO.h"
+#include "ASSAO.h"
 #include "FXAA.h"
 #include "SystemTime.h"
 #include "TextRenderer.h"
@@ -151,7 +152,8 @@ void ModelViewer::Startup( void )
     FXAA::Enable = false;
     PostEffects::EnableHDR = true;
     PostEffects::EnableAdaptation = true;
-    SSAO::Enable = true;
+    SSAO::Enable = false;
+    ASSAO::Enable = true;
 
     Renderer::Initialize();
 
@@ -276,8 +278,10 @@ void ModelViewer::RenderScene( void )
         Vector3 SunDirection = Normalize(Vector3( costheta * cosphi, sinphi, sintheta * cosphi ));
         Vector3 ShadowBounds = Vector3(m_ModelInst.GetRadius());
         //m_SunShadowCamera.UpdateMatrix(-SunDirection, m_ModelInst.GetCenter(), ShadowBounds,
-        m_SunShadowCamera.UpdateMatrix(-SunDirection, Vector3(0, -500.0f, 0), Vector3(5000, 3000, 3000),
-            (uint32_t)g_ShadowBuffer.GetWidth(), (uint32_t)g_ShadowBuffer.GetHeight(), 16);
+        m_SunShadowCamera.UpdateMatrix(
+            -SunDirection, Vector3(0, -500.0f, 0), Vector3(5000, 3000, 3000),
+            (uint32_t)g_ShadowBuffer.GetWidth(), (uint32_t)g_ShadowBuffer.GetHeight(), 16
+        );
 
         GlobalConstants globals;
         globals.ViewProjMatrix = m_Camera.GetViewProjMatrix();
@@ -291,11 +295,11 @@ void ModelViewer::RenderScene( void )
         gfxContext.ClearDepth(g_SceneDepthBuffer);
 
         MeshSorter sorter(MeshSorter::kDefault);
-		    sorter.SetCamera(m_Camera);
-		    sorter.SetViewport(viewport);
-		    sorter.SetScissor(scissor);
-		    sorter.SetDepthStencilTarget(g_SceneDepthBuffer);
-		    sorter.AddRenderTarget(g_SceneColorBuffer);
+        sorter.SetCamera(m_Camera);
+        sorter.SetViewport(viewport);
+        sorter.SetScissor(scissor);
+        sorter.SetDepthStencilTarget(g_SceneDepthBuffer);
+        sorter.AddRenderTarget(g_SceneColorBuffer);
 
         m_ModelInst.Render(sorter);
 
@@ -306,7 +310,8 @@ void ModelViewer::RenderScene( void )
             sorter.RenderMeshes(MeshSorter::kZPass, gfxContext, globals);
         }
 
-        SSAO::Render(gfxContext, m_Camera);
+        //SSAO::Render(gfxContext, m_Camera);
+        ASSAO::Render(gfxContext, m_Camera);
 
         if (!SSAO::DebugDraw)
         {

@@ -59,6 +59,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ASSAO.h" />
     <ClInclude Include="BitonicSort.h" />
     <ClInclude Include="BuddyAllocator.h" />
     <ClInclude Include="BufferManager.h" />
@@ -132,6 +133,7 @@
     <ClInclude Include="VectorMath.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ASSAO.cpp" />
     <ClCompile Include="BitonicSort.cpp" />
     <ClCompile Include="BuddyAllocator.cpp" />
     <ClCompile Include="BufferManager.cpp" />
@@ -202,6 +204,31 @@
     <FxCompile Include="Shaders\AoRender2CS.hlsl" />
     <FxCompile Include="Shaders\ApplyBloom2CS.hlsl" />
     <FxCompile Include="Shaders\ApplyBloomCS.hlsl" />
+    <FxCompile Include="Shaders\ASSAOBlurPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\ASSAOComputePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\ASSAODownsamplePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\ASSAOUpsamplePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\ASSAOVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="Shaders\AverageLumaCS.hlsl" />
     <FxCompile Include="Shaders\BicubicHorizontalUpsamplePS.hlsl">
       <ShaderType>Pixel</ShaderType>

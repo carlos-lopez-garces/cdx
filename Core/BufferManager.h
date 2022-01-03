@@ -81,6 +81,17 @@ namespace Graphics
     extern ByteAddressBuffer g_FXAAWorkQueue;
     extern TypedBuffer g_FXAAColorQueue;
 
+    // Alchemy screen-space ambient obscurance (ASSAO).
+    extern ColorBuffer *gbufferDiffuseRT;
+    extern ColorBuffer *gbufferNormalRT;
+    extern ColorBuffer depth16RT_x4;
+    extern ColorBuffer ssaoRT_x4;
+    extern ColorBuffer ssaoBlurXRT_x4;
+    extern ColorBuffer ssaoBlurRT_x4;
+    extern ColorBuffer ssaoUpsampleRT;
+    extern ColorBuffer compositeRT;
+    extern DepthBuffer *depthStencilTarget;
+
     void InitializeRenderingBuffers(uint32_t NativeWidth, uint32_t NativeHeight );
     void ResizeDisplayDependentBuffers(uint32_t NativeWidth, uint32_t NativeHeight);
     void DestroyRenderingBuffers();

@@ -82,6 +82,18 @@ namespace Graphics
     // For testing GenerateMipMaps()
     ColorBuffer g_GenMipsBuffer;
 
+    // Alchemy screen-space ambient obscurance (ASSAO).
+    // TODO: rename.
+    ColorBuffer *gbufferDiffuseRT = &g_SceneColorBuffer;
+    ColorBuffer *gbufferNormalRT = &g_SceneNormalBuffer;
+    ColorBuffer depth16RT_x4;
+    ColorBuffer ssaoRT_x4;
+    ColorBuffer ssaoBlurXRT_x4;
+    ColorBuffer ssaoBlurRT_x4;
+    ColorBuffer ssaoUpsampleRT;
+    ColorBuffer compositeRT;
+    DepthBuffer *depthStencilTarget = &g_SceneDepthBuffer;
+
     DXGI_FORMAT DefaultHdrColorFormat = DXGI_FORMAT_R11G11B10_FLOAT;
 }
 
@@ -130,6 +142,8 @@ void Graphics::InitializeRenderingBuffers( uint32_t bufferWidth, uint32_t buffer
                 esram.PushStack();    // Begin Shading
 
                     g_SSAOFullScreen.Create( L"SSAO Full Res", bufferWidth, bufferHeight, 1, DXGI_FORMAT_R8_UNORM );
+                    // ASSAO.
+                    ssaoUpsampleRT.Create( L"ASSAO Upsampled",  bufferWidth, bufferHeight, 1, DXGI_FORMAT_R8G8B8A8_UNORM );
 
                     esram.PushStack();    // Begin generating SSAO
                         g_DepthDownsize1.Create( L"Depth Down-Sized 1", bufferWidth1, bufferHeight1, 1, DXGI_FORMAT_R32_FLOAT, esram );
@@ -151,6 +165,12 @@ void Graphics::InitializeRenderingBuffers( uint32_t bufferWidth, uint32_t buffer
                         g_AOHighQuality2.Create( L"AO High Quality 2", bufferWidth2, bufferHeight2, 1, DXGI_FORMAT_R8_UNORM, esram );
                         g_AOHighQuality3.Create( L"AO High Quality 3", bufferWidth3, bufferHeight3, 1, DXGI_FORMAT_R8_UNORM, esram );
                         g_AOHighQuality4.Create( L"AO High Quality 4", bufferWidth4, bufferHeight4, 1, DXGI_FORMAT_R8_UNORM, esram );
+                        // ASSAO.
+                        depth16RT_x4.Create( L"ASSAO R16F Downsampled Depth", bufferWidth/2, bufferHeight/2, 1, DXGI_FORMAT_R16_FLOAT, esram);
+                        ssaoRT_x4.Create( L"ASSAO 1?", bufferWidth/2, bufferHeight/2, 1, DXGI_FORMAT_R8G8B8A8_UNORM, esram);
+                        ssaoBlurXRT_x4.Create( L"ASSAO Blur 1?", bufferWidth/2, bufferHeight/2, 1, DXGI_FORMAT_R8G8B8A8_UNORM, esram);
+                        ssaoBlurRT_x4.Create( L"ASSAO Blur 2?", bufferWidth/2, bufferHeight/2, 1, DXGI_FORMAT_R8G8B8A8_UNORM, esram);
+                        compositeRT.Create( L"ASSAO Composite", bufferWidth, bufferHeight, 1, DXGI_FORMAT_R11G11B10_FLOAT, esram);
                     esram.PopStack();	// End generating SSAO
 
                     g_ShadowBuffer.Create( L"Shadow Map", 2048, 2048, esram );
